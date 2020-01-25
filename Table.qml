@@ -10,7 +10,7 @@ Rectangle {
         anchors.margins: 10
         anchors.fill: parent
 
-        model: tableModel
+        model: myModel
         clip: true
 
         TableViewColumn {

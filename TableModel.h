@@ -2,29 +2,28 @@
 #define TABLEMODEL_H
 
 #include <QObject>
-#include <QVariant>
+#include <QAbstractListModel>
 
-class TableModel : public QObject
+class TableModel : public QAbstractTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString color READ color WRITE setColor NOTIFY colorChanged)
 public:
-    TableModel(QObject *parent = nullptr);
-    TableModel(const TableModel &other);
-    TableModel(const QString &name, const QString &color, QObject *parent = nullptr);
-    void setName(const QString &name);
-    void setColor(const QString &color);
-    QString name() const;
-    QString color() const;
-signals:
-    void nameChanged();
-    void colorChanged();
-private:
-    QString m_name;
-    QString m_color;
-};
+    enum Roles {
+        NameRole = Qt::UserRole + 1,
+        ColorRole
+    };
 
-Q_DECLARE_METATYPE(TableModel)
+    TableModel(QObject *parent = 0);
+    TableModel(QList<QPair<QString, QString>> data,QObject *parent = 0);
+
+    virtual int rowCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual QVariant data(const QModelIndex &index, int role) const;
+    virtual QHash<int, QByteArray> roleNames() const;
+
+
+private:
+    QList<QPair<QString, QString>> m_data;
+};
 
 #endif // TABLEMODEL_H

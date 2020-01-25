@@ -23,6 +23,19 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
+    QList<QPair<QString, QString>> data;
+
+    QPair<QString, QString> pair;
+    pair.first = "1";
+    pair.second = "Red";
+    data << pair;
+    pair.first = "2";
+    pair.second = "Green";
+    data << pair;
+
+    TableModel myModel(data);
+    engine.rootContext()->setContextProperty("myModel", &myModel);
+
     TcpClient client(&engine);
     client.tcpClientConnect("jsonplaceholder.typicode.com", 80);
 

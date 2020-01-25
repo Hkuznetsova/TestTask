@@ -1,52 +1,61 @@
 #include "TableModel.h"
+#include <QDebug>
 
-TableModel::TableModel(QObject *parent)
-    : QObject { parent }
-    , m_name { "" }
-    , m_color { "" }
+TableModel::TableModel(QObject *parent):
+    QAbstractTableModel(parent)
 {
+}
+
+TableModel::TableModel(QList<QPair<QString, QString>> data,  QObject *parent):
+    QAbstractTableModel(parent)
+{
+    m_data = data;
 
 }
 
-TableModel::TableModel(const TableModel &other)
-    : QObject { other.parent() }
-    , m_name { other.m_name }
-    , m_color { other.m_color }
+int TableModel::rowCount(const QModelIndex &parent) const
 {
+    if (parent.isValid()) {
+        return 0;
+    }
 
+    return m_data.size();
 }
 
-TableModel::TableModel(const QString &name, const QString &color, QObject *parent)
-    : QObject { parent }
-    , m_name { name }
-    , m_color { color }
+int TableModel::columnCount(const QModelIndex &parent) const
 {
-
+    if (parent.isValid()) {
+        return 0;
+    }
+    return 2;
 }
 
-void TableModel::setName(const QString &name)
+QVariant TableModel::data(const QModelIndex &index, int role) const
 {
-    if(m_name != name) {
-        m_name = name;
-        emit nameChanged();
+
+
+    if (!index.isValid()) {
+        return QVariant();
+    }
+
+    switch (role) {
+    case ColorRole:
+        return m_data.at(index.row()).second;
+    case NameRole:
+        return m_data.at(index.row()).first;
+    default:
+        return QVariant();
     }
 }
 
-void TableModel::setColor(const QString &color)
+QHash<int, QByteArray> TableModel::roleNames() const
 {
-    if(m_color != color) {
-        m_color = color;
-        emit colorChanged();
-    }
+    QHash<int, QByteArray> roles = QAbstractTableModel::roleNames();
+    roles[ColorRole] = "color";
+    roles[NameRole] = "name";
+
+    return roles;
 }
 
-QString TableModel::name() const
-{
-    return m_name;
-}
 
-QString TableModel::color() const
-{
-    return m_color;
-}
 
