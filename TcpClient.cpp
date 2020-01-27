@@ -2,9 +2,10 @@
 #include "QmlOutput.h"
 #include "ConsoleOutput.h"
 
-TcpClient::TcpClient(QQmlApplicationEngine* engine)
+TcpClient::TcpClient(QQmlApplicationEngine* engine, TableModel* myModel)
 {
     this->engine = engine;
+    this->myModel = myModel;
 }
 
 void TcpClient::tcpClientConnect(const QString& strHost,  int nPort)
@@ -40,7 +41,7 @@ void TcpClient::slotReadyRead()
         return;
     }
     if (!JsonInfo.isEmpty()) {
-        QmlOutput qmlOutput(JsonInfo, *engine);
+        QmlOutput qmlOutput(JsonInfo, *engine,*myModel);
         ConsoleOutput consoleOutput(JsonInfo);
     }
 }

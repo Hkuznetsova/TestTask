@@ -11,7 +11,7 @@
 class QmlOutput
 {
 public:
-    QmlOutput(QList<QPair<QString, QString>> JSONInfo, QQmlApplicationEngine &engine);
+    QmlOutput(QList<QPair<QString, QString>> JSONInfo, QQmlApplicationEngine &engine, TableModel &myModel);
 };
 
 #endif // QMLOUTPUT_H

@@ -57,5 +57,13 @@ QHash<int, QByteArray> TableModel::roleNames() const
     return roles;
 }
 
+void TableModel::add(QPair<QString, QString> data)
+{
+    beginInsertRows(QModelIndex(), m_data.size(), m_data.size());
+    m_data << data;
+    endInsertRows();
 
+    QModelIndex index = createIndex(0, 0, static_cast<void *>(0));
+    emit dataChanged(index, index);
+}
 

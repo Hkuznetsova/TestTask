@@ -8,6 +8,7 @@
 #include <QQmlApplicationEngine>
 
 #include "JsonConvert.h"
+#include "TableModel.h"
 
 class TcpClient : public QObject
 {
@@ -16,9 +17,10 @@ private:
     QTcpSocket* m_pTcpSocket;
     quint16     m_nNextBlockSize;
     QQmlApplicationEngine* engine;
+    TableModel* myModel;
 
 public:
-    TcpClient(QQmlApplicationEngine* engine);
+    TcpClient(QQmlApplicationEngine* engine, TableModel* myModel);
     void tcpClientConnect(const QString& strHost,  int nPort);
 
 private slots:

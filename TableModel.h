@@ -21,6 +21,7 @@ public:
     virtual QVariant data(const QModelIndex &index, int role) const;
     virtual QHash<int, QByteArray> roleNames() const;
 
+    Q_INVOKABLE void add(QPair<QString, QString> data);
 
 private:
     QList<QPair<QString, QString>> m_data;
